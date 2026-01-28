@@ -47,6 +47,6 @@ public class Organisation extends AbstractAuditableEntity {
     @JoinColumn(name = "parent_id")
     private Organisation parent;
 
-    @Column(name = "chemin_hierarchique")
+    @Column(name = "chemin_hierarchique", columnDefinition = "ltree")
     private String cheminHierarchique;
 }
