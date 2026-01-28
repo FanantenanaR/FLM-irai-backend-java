@@ -49,20 +49,4 @@ public class Organisation extends AbstractAuditableEntity {
 
     @Column(name = "chemin_hierarchique")
     private String cheminHierarchique;
-
-    // Verifie si cette organisation est la racine (FOIBE)
-    public boolean isRacine() {
-        return this.parent == null;
-    }
-
-    // Retourne le niveau dans la hierarchie (0 = FOIBE)
-    public int getNiveau() {
-        int niveau = 0;
-        Organisation current = this.parent;
-        while (current != null) {
-            niveau++;
-            current = current.getParent();
-        }
-        return niveau;
-    }
 }

@@ -80,7 +80,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Application properties sensibles (si vous avez des fichiers locaux)
+# Application properties sensibles
+src/main/resources/application.properties
 application-local.properties
 application-dev.properties
 *.env

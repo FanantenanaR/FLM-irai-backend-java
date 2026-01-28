@@ -5,7 +5,7 @@ server.servlet.context-path=/irai
 
 # Configuration de la base de donnees PostgreSQL
 spring.datasource.url=jdbc:postgresql://localhost:5432/irai_db
-spring.datasource.username=postgres
+spring.datasource.username=your_username
 spring.datasource.password=your_password
 spring.datasource.driver-class-name=org.postgresql.Driver
 
