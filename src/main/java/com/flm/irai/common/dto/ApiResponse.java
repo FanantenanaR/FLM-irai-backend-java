@@ -72,6 +72,9 @@ public class ApiResponse<T> {
 
     // Reponse de succes paginee
     public static <T> ApiResponse<T> successPaginated(String message, T data, int page, int limit, long totalElement) {
+        if (limit <= 0) {
+            throw new IllegalArgumentException("Le parametre 'limit' doit etre superieur a 0");
+        }
         int numberPage = (int) Math.ceil((double) totalElement / limit);
         return ApiResponse.<T>builder()
                 .status(ResponseStatus.SUCCESS)
