@@ -14,11 +14,11 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class ApiResponse<T> {
 
     private ResponseStatus status;
-    private Integer code;
+    private int code;
     private String message;
     private T data;
     private String error;
@@ -28,15 +28,15 @@ public class ApiResponse<T> {
 
     private Instant timestamp;
 
-    // Champs de pagination (nullables)
-    private Integer page;
-    private Integer limit;
+    // Champs de pagination
+    private int page;
+    private int limit;
 
     @JsonProperty("total_element")
-    private Long totalElement;
+    private long totalElement;
 
     @JsonProperty("number_page")
-    private Integer numberPage;
+    private int numberPage;
 
     // Reponse de succes sans donnees
     public static <T> ApiResponse<T> success(String message) {
