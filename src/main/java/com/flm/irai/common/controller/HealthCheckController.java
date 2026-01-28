@@ -1,12 +1,11 @@
 package com.flm.irai.common.controller;
 
+import com.flm.irai.common.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,17 +16,21 @@ import java.util.Map;
 public class HealthCheckController {
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> healthCheck() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", "UP");
-        response.put("application", "irai-backend");
-        response.put("timestamp", LocalDateTime.now());
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<Map<String, String>>> healthCheck() {
+        Map<String, String> healthData = Map.of(
+                "application", "irai-backend",
+                "status", "UP"
+        );
+
+        return ResponseEntity.ok(
+                ApiResponse.success("Application en cours d'execution", healthData)
+        );
     }
 
     @GetMapping("/ping")
-    public ResponseEntity<String> ping() {
-        return ResponseEntity.ok("pong");
+    public ResponseEntity<ApiResponse<String>> ping() {
+        return ResponseEntity.ok(
+                ApiResponse.success("Pong", "pong")
+        );
     }
 }
