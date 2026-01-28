@@ -91,3 +91,6 @@ application-dev.properties
 
 # context cursor
 context/
+
+# Cursor
+.cursor/
