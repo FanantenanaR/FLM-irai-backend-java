@@ -35,7 +35,7 @@ public interface FaritraRepository extends JpaRepository<Faritra, UUID> {
     // Recherche avec filtres optionnels
     @Query("SELECT f FROM Faritra f WHERE " +
            "(:fiangonanaId IS NULL OR f.fiangonana.id = :fiangonanaId) AND " +
-           "(:nom IS NULL OR LOWER(f.nom) LIKE LOWER(CONCAT('%', :nom, '%')))")
+           "(COALESCE(:nom, '') = '' OR LOWER(f.nom) LIKE LOWER(CONCAT('%', CAST(:nom AS string), '%')))")
     Page<Faritra> findWithFilters(
             @Param("fiangonanaId") UUID fiangonanaId,
             @Param("nom") String nom,

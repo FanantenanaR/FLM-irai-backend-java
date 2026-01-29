@@ -1,6 +1,8 @@
 package com.flm.irai.organisation.controller;
 
 import com.flm.irai.common.dto.ApiResponse;
+import com.flm.irai.faritra.model.Faritra;
+import com.flm.irai.faritra.service.FaritraService;
 import com.flm.irai.organisation.model.Organisation;
 import com.flm.irai.organisation.service.OrganisationService;
 import jakarta.validation.Valid;
@@ -30,6 +32,7 @@ import java.util.UUID;
 public class OrganisationController {
 
     private final OrganisationService organisationService;
+    private final FaritraService faritraService;
 
     // GET /api/v1/organisations/{id} - Recuperer une organisation par ID
     @GetMapping("/{id}")
@@ -97,6 +100,24 @@ public class OrganisationController {
         organisationService.delete(id);
         return ResponseEntity.ok(
                 ApiResponse.success("Organisation supprimee avec succes")
+        );
+    }
+
+    // GET /api/v1/organisations/{id}/faritras - Recuperer tous les faritra d'une fiangonana
+    @GetMapping("/{id}/faritras")
+    public ResponseEntity<ApiResponse<List<Faritra>>> getFaritras(
+            @PathVariable UUID id,
+            @PageableDefault(size = 20, sort = "nom", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        Page<Faritra> page = faritraService.getByFiangonanaId(id, pageable);
+        return ResponseEntity.ok(
+                ApiResponse.successPaginated(
+                        "Liste des faritra recuperee avec succes",
+                        page.getContent(),
+                        page.getNumber(),
+                        page.getSize(),
+                        page.getTotalElements()
+                )
         );
     }
 }

@@ -92,6 +92,11 @@ public class OrganisationService {
             TypeOrganisation newType = findTypeById(typeId);
             if (organisation.getParent() != null) {
                 validateHierarchy(newType, organisation.getParent().getType());
+            } else {
+                // Sans parent, seul FOIBE est autorise
+                if (!"FOIBE".equals(newType.getCode())) {
+                    throw new IllegalArgumentException("Seul le FOIBE peut ne pas avoir de parent");
+                }
             }
             organisation.setType(newType);
         }
