@@ -1,5 +1,7 @@
 package com.flm.irai.faritra.controller;
 
+import com.flm.irai.ankohonana.model.Ankohonana;
+import com.flm.irai.ankohonana.service.AnkohonanaService;
 import com.flm.irai.common.dto.ApiResponse;
 import com.flm.irai.faritra.model.Faritra;
 import com.flm.irai.faritra.service.FaritraService;
@@ -30,6 +32,7 @@ import java.util.UUID;
 public class FaritraController {
 
     private final FaritraService faritraService;
+    private final AnkohonanaService ankohonanaService;
 
     // GET /api/v1/faritras/{id} - Recuperer un faritra par ID
     @GetMapping("/{id}")
@@ -93,6 +96,24 @@ public class FaritraController {
         faritraService.delete(id);
         return ResponseEntity.ok(
                 ApiResponse.success("Faritra supprime avec succes")
+        );
+    }
+
+    // GET /api/v1/faritras/{id}/ankohonanas - Recuperer toutes les ankohonana d'un faritra
+    @GetMapping("/{id}/ankohonanas")
+    public ResponseEntity<ApiResponse<List<Ankohonana>>> getAnkohonanas(
+            @PathVariable UUID id,
+            @PageableDefault(size = 20, sort = "nomChefFamille", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        Page<Ankohonana> page = ankohonanaService.getByFaritraId(id, pageable);
+        return ResponseEntity.ok(
+                ApiResponse.successPaginated(
+                        "Liste des ankohonana recuperee avec succes",
+                        page.getContent(),
+                        page.getNumber(),
+                        page.getSize(),
+                        page.getTotalElements()
+                )
         );
     }
 }
