@@ -1,10 +1,14 @@
 package com.flm.irai.common.entity;
 
+import com.flm.irai.utilisateur.model.Utilisateur;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,15 +42,17 @@ public abstract class AbstractAuditableEntity {
     @Column(name = "date_creation", nullable = false, updatable = false)
     private Instant dateCreation;
 
-    @Column(name = "cree_par")
-    private UUID creePar;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cree_par")
+    private Utilisateur creePar;
 
     @LastModifiedDate
     @Column(name = "date_modification")
     private Instant dateModification;
 
-    @Column(name = "modifie_par")
-    private UUID modifiePar;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "modifie_par")
+    private Utilisateur modifiePar;
 
     @Column(name = "date_suppression")
     private Instant dateSuppression;
