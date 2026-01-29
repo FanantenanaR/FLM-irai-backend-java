@@ -98,7 +98,7 @@ public class UtilisateurService {
     @Transactional
     public Utilisateur toggleActive(UUID id) {
         Utilisateur utilisateur = findUtilisateurById(id);
-        utilisateur.setEstActif(!utilisateur.getEstActif());
+        utilisateur.setEstActif(!utilisateur.isEstActif());
         return utilisateurRepository.save(utilisateur);
     }
 

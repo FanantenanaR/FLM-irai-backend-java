@@ -42,5 +42,5 @@ public class Utilisateur extends AbstractAuditableEntity {
 
     @Builder.Default
     @Column(name = "est_actif")
-    private Boolean estActif = true;
+    private boolean estActif = true;
 }
