@@ -80,7 +80,7 @@ public class OrganisationController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Organisation>> update(
             @PathVariable UUID id,
-            @RequestBody Organisation request
+            @Valid @RequestBody Organisation request
     ) {
         Organisation organisation = organisationService.update(
                 id,
