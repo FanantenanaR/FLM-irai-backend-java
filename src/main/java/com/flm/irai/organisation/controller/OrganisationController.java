@@ -5,6 +5,8 @@ import com.flm.irai.faritra.model.Faritra;
 import com.flm.irai.faritra.service.FaritraService;
 import com.flm.irai.organisation.model.Organisation;
 import com.flm.irai.organisation.service.OrganisationService;
+import com.flm.irai.sampana.model.Sampana;
+import com.flm.irai.sampana.service.SampanaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,7 @@ public class OrganisationController {
 
     private final OrganisationService organisationService;
     private final FaritraService faritraService;
+    private final SampanaService sampanaService;
 
     // GET /api/v1/organisations/{id} - Recuperer une organisation par ID
     @GetMapping("/{id}")
@@ -119,5 +122,40 @@ public class OrganisationController {
                         page.getTotalElements()
                 )
         );
+    }
+
+    // GET /api/v1/organisations/{id}/sampanas - Liste des sampana d'une fiangonana
+    @GetMapping("/{id}/sampanas")
+    public ResponseEntity<ApiResponse<List<Sampana>>> getSampanas(
+            @PathVariable UUID id,
+            @PageableDefault(size = 20, sort = "nom", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        Page<Sampana> page = sampanaService.getAll(id, null, pageable);
+        return ResponseEntity.ok(
+                ApiResponse.successPaginated(
+                        "Liste des sampana recuperee avec succes",
+                        page.getContent(),
+                        page.getNumber(),
+                        page.getSize(),
+                        page.getTotalElements()
+                )
+        );
+    }
+
+    // POST /api/v1/organisations/{id}/sampanas - Creer un sampana dans une fiangonana
+    @PostMapping("/{id}/sampanas")
+    public ResponseEntity<ApiResponse<Sampana>> createSampana(
+            @PathVariable("id") UUID fiangonanaId,
+            @Valid @RequestBody Sampana request
+    ) {
+        Sampana sampana = sampanaService.create(
+                request.getNom(),
+                request.getType() != null ? request.getType().getId() : null,
+                fiangonanaId,
+                request.getDescription()
+        );
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success(201, "Sampana cree avec succes", sampana));
     }
 }
