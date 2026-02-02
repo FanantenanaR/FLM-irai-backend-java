@@ -1,5 +1,6 @@
 package com.flm.irai.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.flm.irai.utilisateur.model.Utilisateur;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
@@ -42,6 +43,7 @@ public abstract class AbstractAuditableEntity {
     @Column(name = "date_creation", nullable = false, updatable = false)
     private Instant dateCreation;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cree_par")
     private Utilisateur creePar;
@@ -50,6 +52,7 @@ public abstract class AbstractAuditableEntity {
     @Column(name = "date_modification")
     private Instant dateModification;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "modifie_par")
     private Utilisateur modifiePar;
